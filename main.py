@@ -11,9 +11,9 @@ def load_json():
 def hello():
     return {"message": "Patient Management System"}
 
-@app.get("/greet/{name}")
-def greet(name: str):
-    return {"message": f"Hello, {name}!"}
+# @app.get("/greet/{name}")
+# def greet(name: str):
+#     return {"message": f"Hello, {name}!"}
 
 @app.get("/view")
 def view():
