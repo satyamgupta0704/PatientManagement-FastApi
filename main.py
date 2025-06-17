@@ -11,10 +11,6 @@ def load_json():
 def hello():
     return {"message": "Patient Management System"}
 
-# @app.get("/greet/{name}")
-# def greet(name: str):
-#     return {"message": f"Hello, {name}!"}
-
 @app.get("/view")
 def view():
     data = load_json()
@@ -26,6 +22,18 @@ def view_patient(patient_id: str):
     if patient_id in data:
         return data[patient_id]
     raise HTTPException(status_code=404, detail="Patient not found")
+
+
+@app.get("/search")
+def search_patients(name: str = Query(..., description="search patient by name")):
+    data = load_json()
+    results = {
+        id: patient for id, patient in data.items() 
+        if name.lower() in patient.get('name', '').lower()
+    }
+    if not results:
+        raise HTTPException(status_code=404, detail="No patients found")
+    return results
 
 @app.get("/sort")
 def sort_patients(sort_by: str = Query(..., description="sort by height, weight or bmi"), order: str = Query('asc', description="sort in asc or desc order")):
